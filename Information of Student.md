@@ -1,6 +1,6 @@
 # HomeworkProgect-18041422
 
-<p style="font:25pt;color:bule;" >
+<p style="color:bule;" >
 学生姓名：王瑞<br/>
 学号：18041422<br/>
 学院：电子信息工程<br/>
