@@ -4,14 +4,14 @@
 
 using namespace std;
 
-int prime_1(int n);				//My low program;
-int prime_2(int n);				//find a program Online,special one
+int prime_1(int );				//My low program;
+int prime_2(int );				//find a program Online,special one
 
 int main()
 {
 	//prime_1(100);
 
-	prime_2(100);
+	prime_2(200);
 
 	return 0;
 }
