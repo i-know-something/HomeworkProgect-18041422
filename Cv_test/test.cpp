@@ -11,6 +11,7 @@ int main()
 
 	Mat img = imread("1.png");
 
+
 	imshow("test", img);
 
 	//waiting for any key pressed
