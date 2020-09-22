@@ -11,7 +11,7 @@ int main()
 {
 	//prime_1(100);
 
-	prime_2(200);
+	prime_2(100);
 
 	return 0;
 }
