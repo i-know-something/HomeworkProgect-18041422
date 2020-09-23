@@ -3,28 +3,37 @@
 
 using namespace cv;
 
-Mat PointAverage(Mat);				//read a image and get it average of every point
+int PointAverage(Mat);					//  1. read a image and get it average of every point
 
-int Binaryzation(Mat, int);				//(compare with every point of Mat with int,two result
+int Binaryzation(Mat, int);				//  3. compare with every point of Mat with int,two result
 
-int TwoOfCopy(Mat);					//compare the shollow-copy and deep-copy
+int TwoOfCopy(Mat);						//  4. compare the shollow-copy and deep-copy
 
 int main() {
 
-	std::cout << "first program" << std::endl;
 	
-	Mat Oimg = imread("It_not_my_fault.jpg");
-	imshow("Origin Picture", Oimg);
 
-	Mat A_img = PointAverage(Oimg);
-	imshow("Average_picture",A_img);
+	std::cout << "hello world" << std::endl;
 	
+	Mat O_img = imread("It_not_my_fault.jpg");
+	imshow("Origin Picture", O_img);
+	
+
+	Mat A_img;							//deepcopy a "Mat" for subfuction to process
+	O_img.copyTo(A_img);				
+	PointAverage(A_img);				
+	imshow("Average_picture",A_img);	//show the result
+
+
 	Mat img_0 = imread("It_not_my_fault.jpg", 0);
 	imshow("gray_level", img_0);
 
-	Binaryzation(A_img, 150);
+	Mat B_img;
+	A_img.copyTo(B_img);
+	Binaryzation(B_img, 100);
+	imshow("binaryzation", B_img);
 
-	TwoOfCopy(Oimg);
+	TwoOfCopy(O_img);
 
 	waitKey(0);
 
@@ -32,7 +41,11 @@ int main() {
 
 }
 
-Mat PointAverage( Mat Mat_0 ) {
+
+
+int PointAverage( Mat Mat_0 ) {						
+
+
 	int hight=Mat_0.rows;
 	int weight = Mat_0.cols;
 
@@ -48,9 +61,11 @@ Mat PointAverage( Mat Mat_0 ) {
 			point[0] = point[1] = point[2] = average;
 		}
 
-	return Mat_0;
+	return 0;
 	
 }
+
+
 
 int Binaryzation(Mat Mat_0, int n) {
 
@@ -64,16 +79,33 @@ int Binaryzation(Mat Mat_0, int n) {
 		
 		for (j = 0; j < weight; j++){
 			
-			data[j]=data[j]>n?0:255;
+			data[j]=data[j]>n?255:0;
 		}
 	}
-
-	imshow("binaryzation", Mat_0);
-	waitKey(0);
 
 	return 0;
 }
 
-TwoOfCopy(Mat Mat_0) {
-	return 0£»
+
+
+int TwoOfCopy(Mat Mat_0) {
+
+
+	Mat srcMat,S_copy, D_copy;
+
+	Mat_0.copyTo(srcMat);		//Copy the origion picture in subfuction to test;
+
+	S_copy = srcMat;			//shallow copy
+
+	srcMat.copyTo(D_copy);		//deep copy
+
+
+	Binaryzation(srcMat,100);	//process srcMat by the thrid way
+
+
+	imshow("the shallow copy after processing", S_copy);
+
+	imshow("the deep copy after processing", D_copy);
+
+	return 0;
 }
