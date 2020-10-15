@@ -40,8 +40,8 @@ void First() {
 
 	double scale = 0.5;
 
-	double i_minH = 0;
-	double i_maxH = 20;
+	double i_minH = 30;
+	double i_maxH = 120;
 
 	double i_minS = 43;
 	double i_maxS = 255;
@@ -160,7 +160,6 @@ void Thrid() {
 
 	createTrackbar("threshold", window_name, &LowTh, MaxTh, threshod_Mat, &gryMat);
 
-	waitKey(0);
 	waitKey(0);
 
 
