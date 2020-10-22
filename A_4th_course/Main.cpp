@@ -18,13 +18,13 @@ void Exercise4(void);
 int main() {
 
 
-	//Exercise1();			//Some Basic Operation
+	Exercise1();			//Some Basic Operation
 
-	//Exercise2();			//ConnectedComponentMark
+	Exercise2();			//ConnectedComponentMark
 
 	Exercise3();			// BinzationCount();
 
-	//Exercise4();			// ClipsCounting();
+	Exercise4();			// ClipsCounting();
 
 	return 0;
 }
@@ -98,6 +98,7 @@ void Exercise2() {
 	imshow("markcomponent",BinMat);
 
 	waitKey(0);
+	destroyAllWindows();
 	return;
 
 
@@ -106,7 +107,7 @@ void Exercise2() {
 
 void Exercise3() {
 
-	Mat srcMat = imread("3.jpg",0);
+	Mat srcMat = imread("2.jpg",0);
 	imshow("srcMat", srcMat);
 	Mat OTSUMat;
 	threshold(srcMat, OTSUMat, 100, 255,THRESH_OTSU);
@@ -125,7 +126,7 @@ void Exercise3() {
 
 
 	int i, j;
-	int i_max = int(CloseMat1.rows/4);								//只扫1/8图像
+	int i_max = int(CloseMat1.rows/4);						//只扫1/16图像
 	int j_max = int(CloseMat1.cols/4);
 	int Diam = 0;											//黑色线的最大宽度即为圆点的直径
 	int Max_pre_rows =0;									//每一竖行黑色线的最大宽度
@@ -145,7 +146,7 @@ void Exercise3() {
 		Diam = (Max_pre_rows > Diam) ? Max_pre_rows : Diam;
 	}
 
-	//cout << Diam << endl;
+	cout << "圆点直径（像素）"<<Diam << endl;
 
 	Mat Ele2=getStructuringElement(MORPH_ELLIPSE, Size(Diam - 10, Diam - 10));
 	morphologyEx(CloseMat1, CloseMat2, MORPH_CLOSE, Ele2);
@@ -157,6 +158,67 @@ void Exercise3() {
 	cout << "图中共有圆点" << N - 1 << "个" << endl;
 
 	waitKey(0);
+	destroyAllWindows();
 
 	return;
 }
+
+void Exercise4()
+
+//思路：：调用 connectedComponentsWithStats 函数，
+//根据面积来判断是否为回形针
+
+//想不到其他招了，，，（用长和宽太不靠谱，弃之
+{
+	Mat srcMat = imread("3.jpg", 0);
+	Mat OTSUMat,  ClearMat;
+	threshold(srcMat, OTSUMat, 100, 255, THRESH_BINARY_INV|THRESH_OTSU);	//大津并取反
+
+	Mat ELE= getStructuringElement(MORPH_ELLIPSE, Size(3,3));				//开运算去除白色噪点
+	morphologyEx(OTSUMat, ClearMat, MORPH_OPEN, ELE);
+	imshow("Clear_INV_OTSU_MAT", ClearMat);
+
+	int N=0;												
+	Mat Labels, States,Centrodis;
+	N=connectedComponentsWithStats(ClearMat, Labels, States, Centrodis);
+
+	cout <<endl<<endl<< N << endl<<endl;
+	cout << States << endl << endl << endl;
+	//cout << Centrodis << endl << endl;
+
+	int Average_S = 0;
+
+	for (int i = 1; i < N; i++) {
+		Average_S += States.at<int>(i, 4);
+	}
+	Average_S = int(Average_S / (N - 1));
+
+	//cout << Average_S << endl;
+
+	bool* Flag = new bool[N];												//判断是否为回形针的标志位数组
+	*Flag = false;															//背景不是连通域
+	int NumberAll = 0;
+
+
+	int Max_S = int(Average_S * 1.2);										//认为面积误差大度20%的不是回形针
+	int Min_S = int(Average_S * 0.8);
+
+	for (int i = 1; i < N; i++) {											
+		if (States.at<int>(i, 4) < Min_S || States.at<int>(i, 4) > Max_S)
+			Flag[i] = false;
+		else
+			Flag[i] = true;
+
+		if(Flag[i])
+			NumberAll++;
+	}
+
+	cout << "图中有回形针" << NumberAll << "个" << endl;
+	waitKey(0);
+
+	delete[] Flag;
+	destroyAllWindows();
+	return;
+
+}
+
