@@ -17,7 +17,7 @@ int main()
 {
 	//First();
 
-	Second();
+	//Second();
 
 	Thrid();
 
@@ -93,11 +93,11 @@ void First() {
 
 void Second() {
 
-	Mat srcMat = imread("1.png",0);
+	Mat srcMat = imread("88_1.",0);
 	Mat A_TMat, B_TMat;				//adaptiveThreshold  and thresh_binary
 
 
-	threshold(srcMat, B_TMat, 100, 255, THRESH_OTSU);
+	threshold(srcMat, B_TMat, 75, 255, THRESH_OTSU);
 
 	adaptiveThreshold(srcMat, A_TMat, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY_INV, 15, 10);
 
@@ -110,9 +110,6 @@ void Second() {
 	imwrite("Binary_Thresh.jpg",B_TMat);
 
 
-	waitKey(0);
-
-	destroyAllWindows();
 
 }
 
@@ -143,7 +140,7 @@ void Thrid() {
 	int LowTh = 30;
 	int MaxTh = 255;
 
-	srcMat = imread("1.png");
+	srcMat = imread("88_1.bmp");
 
 	if (!srcMat.data) {
 
