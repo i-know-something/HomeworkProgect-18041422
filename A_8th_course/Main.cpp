@@ -11,9 +11,9 @@
 using namespace cv;
 using namespace std;
 
-void find_circle();			//练习一
-void find_chip();			//练习二
-void find_bowlcover();		//练习三
+void find_circle();			//练习一 通过圆形度找到图片中的小圆孔并标记,判断半径大小确定是不是要找圆
+void find_chip();			//练习二 通过对矩形系数找到芯片并标记,同理于第一题
+void find_bowlcover();		//练习三 框红色瓶盖，在HSV域标记红色，再判断大小。
 
 
 int main()
@@ -60,6 +60,7 @@ void find_circle()
 		imshow("上色后", srcMat);
 
 	}
+	imwrite("第一题，两件上标记圆形结果.jpg", srcMat);
 	waitKey(0);
 	destroyAllWindows();
 
@@ -109,7 +110,7 @@ void find_chip()
 	}
 
 	imshow("结果", srcMat);
-
+	imwrite("第二题，芯片找中间区域结果.jpg", srcMat);
 	waitKey(0);
 	destroyAllWindows();
 }
@@ -173,7 +174,7 @@ void find_bowlcover()
 	}
 
 	imshow("标记", ssrcMat);
-
+	imwrite("第三题，找到红色瓶盖并标记.jpg", srcMat);
 	waitKey(0);
 	destroyAllWindows();
 
